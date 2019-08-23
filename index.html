@@ -79,7 +79,7 @@
             var todo = [];
             const weatherkey = "4af0779321ecfde78a7c8185b611182c";
             for (i=0;i<locArray.length;i++){ // locArray.length
-                var url = "http://api.openweathermap.org/data/2.5/forecast?lat=";
+                var url = "https://api.openweathermap.org/data/2.5/forecast?lat=";
                 url += locArray[i][0] + "&lon=" + locArray[i][1] + "&appid=" + weatherkey;
                 const hold = await fetch(url);
                 todo.push(hold);
