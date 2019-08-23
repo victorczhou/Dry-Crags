@@ -2,21 +2,31 @@
 <html>
 
 <head>
+    <title>Find Dry Crags</title>
     <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="shortcut icon" type="image/png" href="/favicon.png"/>
 </head>
 
 <body>
+    <h1 style="font-family: Georgia; font-size: 60px"> Is it raining? </h1>
     <form id="frm1" name="frm1">
-        How long do you want to drive for? (in hours) <br>
-        <input type="number" id="time" name="time" min="0" max="6" step=".5" value="2" required> <br>
+        Drive time (in hours): <br>
+        <select id="time" name="time" value="2" required>
+            <option value = "1">1</option>
+            <option value = "2">2</option>
+            <option value = "3">3</option>
+            <option value = "4">4</option>
+            <option value = "5">5</option>
+            <option value = "6">6</option>
+        </select><br>
         Starting address: <br>
         <input type="text" id = "start" name="start" maxlength="50" value = "UCLA" required><br>
-        Day leaving (within 5 days of now): <br>
+        Leave date (within 5 days of now): <br>
         <input type = "date" id = "leavedate" name = "leavedate" required>
         <script>
         document.getElementById("leavedate").valueAsDate = new Date(); // close enough to today
         </script><br>
-        Leave time (hours, 0-23): <br>
+        Leave time (military time, 0-23): <br>
         <input type = "number" id = "leavetime" name = "leavetime" min = "0" max = "23" step = "1" value="17" required><br>
         Max grade: (optional) <br>
         <input type="text" id = "maxgrade" maxlength="5" value = "5.12a">
@@ -25,14 +35,11 @@
     <br>
     <button id="button1"> Find dry crags! </button>
     <br><br>
-    <p id="p1"></p>
+    <h3 id="h2"></h3>
+    <p id="p1" style="font-size: 20px"></p>
     
     <script>
         const key = "AIzaSyDRw3ERq-3qMhR6jywEv94hcpP8ZzDfDzs";
-
-        function printll(){
-            alert(lat + " " + long);
-        }
         
         function initMap(){
             var geocoder = new google.maps.Geocoder();
@@ -49,7 +56,6 @@
                 if (status == "OK"){
                     lat = results[0].geometry.location.lat();
                     long = results[0].geometry.location.lng();
-                    console.log("Geocode: " + lat + " " + long);
                     findWeather(lat, long);
                 }
                 else {
@@ -67,7 +73,6 @@
                 for (j=-3;j<=3;j++){ // long
                     locArray.push([lat+i*latmult,long+j*longmult])
                 }
-            //console.log(locArray);
             
             var leavetime = stringtodate();
             var valid = [];
@@ -76,16 +81,12 @@
             for (i=0;i<locArray.length;i++){ // locArray.length
                 var url = "http://api.openweathermap.org/data/2.5/forecast?lat=";
                 url += locArray[i][0] + "&lon=" + locArray[i][1] + "&appid=" + weatherkey;
-                //console.log(url);
-                console.log("weather request #" + i);
                 const hold = await fetch(url);
                 todo.push(hold);
             }
-            //console.log("requests finished");
             for (i=0;i<todo.length;i++){
                 var response = todo[i];
                 await response.json().then(data => {
-                    //console.log(data);
                     var goodweather = true;
                     for (j=0;j<data.list.length;j++){
                         if ((data.list[j].dt > leavetime && data.list[j].dt < leavetime + 172800) &&
@@ -107,7 +108,6 @@
             var newdate = document.getElementById("leavedate").valueAsDate;
             var hold = parseInt((newdate.getTime() / 1000).toFixed(0));
             hold += document.getElementById("leavetime").value * 3600; // + hours
-            //console.log(hold);
             return hold;
         }
         
@@ -118,14 +118,10 @@
             var valid = [];
             valid.push([33.725715, -116.223123]);
             valid.push([37.655065, -122.012207]);
-            //findClose(valid, start);
             findclimbs(valid);
         }
 
         async function findClose(valid, start){
-            console.log("weather processing finished");
-            //console.log(start);
-            //console.log(valid);
             var find = new google.maps.DistanceMatrixService;
             var origin = new google.maps.LatLng(start[0], start[1]);
             var dests = [];
@@ -140,15 +136,11 @@
                 if (status != "OK")
                     console.log("Error: " + status);
                 else {
-                    //console.log(response);
                     for (var k=0;k<response.rows[0].elements.length;k++)
                         if (response.rows[0].elements[k].status == "OK"){
-                            //console.log("Time traveled " + response.rows[0].elements[k].duration.value);
-                            //console.log("Max time " + parseFloat(frm1.time.value) * 3600)
                             if (checktimes(response.rows[0].elements[k].duration.value))
                                 final.push(valid[k]);
                         }
-                    console.log(final);
                     part2();
                 }
             });
@@ -164,11 +156,8 @@
                     if (status != "OK")
                         console.log("Error: " + status);
                     else {
-                        //console.log(response);
                         for (var k=0;k<response.rows[0].elements.length;k++)
                             if (response.rows[0].elements[k].status == "OK"){
-                                //console.log("Time traveled " + response.rows[0].elements[k].duration.value);
-                                //console.log("Max time " + parseFloat(frm1.time.value) * 3600)
                                 if (checktimes(response.rows[0].elements[k].duration.value))
                                     final.push(valid[k]);
                             }
@@ -188,8 +177,6 @@
         }
         
         async function findclimbs(final){
-            //console.log(final);
-            console.log("finding climbs...");
             const mpkey = "&key=200175868-ec4e9a92dabd127918e609bf7985e5b2";
             const url = "https://www.mountainproject.com/data/get-routes-for-lat-lon?lat=";
             const minmax = "&maxDistance=60&minDiff=5.6&maxDiff=" + document.getElementById("maxgrade").value;
@@ -197,7 +184,6 @@
             var locations = [];
             for (var i=0;i<final.length;i++){
                 var newurl = url + final[i][0] + "&lon=" + final[i][1] + minmax + mpkey;
-                //console.log(newurl);
                 const hold = await fetch(newurl);
                 todo.push(hold);
             }
@@ -214,11 +200,12 @@
                    } 
                 });
             }
-            console.log(locations);
-            var htmlhold = "These places are dry:<br>";
+            var htmlhold = "";
             for (i=0;i<locations.length;i++)
                 htmlhold += locations[i] + "<br>";
+            htmlhold += "<br><br>";
             document.getElementById("p1").innerHTML = htmlhold;
+            document.getElementById("h2").innerHTML = "These places are dry:"
         }
         
     </script>
