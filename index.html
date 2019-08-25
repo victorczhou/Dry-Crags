@@ -45,6 +45,7 @@
             var geocoder = new google.maps.Geocoder();
             document.getElementById("button1").addEventListener('click', function() {
                 document.getElementById("h2").innerHTML = "Searching...";
+                document.getElementById("p1").innerHTML = "<br><br><br>";
                 convertAddress(geocoder);
             });
         }
