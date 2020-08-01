@@ -2,10 +2,22 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-class NameForm extends React.Component {
+class MyForm extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {value: ''};
+		var today = new Date();
+		var todaymonth = today.getMonth();
+		var todaydate = today.getDate();
+
+		this.state = {
+			start: "UCLA", 
+			leavemonth: todaymonth,
+			leaveday: todaydate,
+			leavetime: 5,
+			leaveampm: "pm",
+			time: 1, 
+			// add max grade
+		};
 
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
@@ -23,21 +35,29 @@ class NameForm extends React.Component {
 	render() {
 		return (
 			<form onSubmit={this.handleSubmit}>
-			<label>
-			Name:
-			<input type="text" value={this.state.value} onChange={this.handleChange} />
-			</label>
-			<input type="submit" value="Submit" />
+				<label>
+				Start from: <br/>
+				<input type="text" value={this.state.start} onChange={this.handleChange} />
+				</label>
+				<br/>
+				<input type="submit" value="Find crags!" />
 			</form>
-			);
+		);
 	}
 }
 
-const title = (
-	<h1 style={{fontFamily: "Georgia", fontSize: "60px"}}>Is it raining?</h1>
-);
+class Page extends React.Component {
+	render(){
+		return (
+			<div>
+			<h1 style={{fontFamily: "Georgia", fontSize: "60px"}}>Is it raining?</h1>
+			<MyForm />
+			</div>
+		);
+	}
+}
 
 ReactDOM.render(
-	title,
+	<Page />,
 	document.getElementById('root')
 	);
