@@ -42,28 +42,28 @@ class MyForm extends React.Component {
 
 	render() {
 		return (
-			<form onSubmit={this.handleSubmit}>
+			<form onSubmit={this.handleSubmit} >
 				<label>
 				Start from: <br/>
-				<input type="text" value={this.state.start} onChange={this.handleChange} />
+				<input type="text" value={this.state.start} onChange={this.handleChange} className="form-inputs"/>
 				</label>
 				<br/>
 
 				<label>
 				Leave month: <br/>
-				<input type="text" value={this.state.leavemonth} onChange={this.handleChange} />
+				<input type="text" value={this.state.leavemonth} onChange={this.handleChange} className="form-inputs"/>
 				</label>
 				<br/>
 
 				<label>
 				Leave day: <br/>
-				<input type="number" value={this.state.leaveday} onChange={this.handleChange} />
+				<input type="number" value={this.state.leaveday} onChange={this.handleChange} className="form-inputs"/>
 				</label>
 				<br/>
 
 				<label>
 				Leave time: <br/>
-				<input type="number" value={this.state.leavetime} onChange={this.handleChange} />
+				<input type="number" value={this.state.leavetime} onChange={this.handleChange} className="form-inputs"/>
 				<select value={this.state.leaveampm} onChange={this.handleChange}>
 					<option value="am">am</option>
 					<option value="pm">pm</option>
