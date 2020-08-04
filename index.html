@@ -65,6 +65,13 @@
                 }
             });
         }
+
+        function stringtodate(){ // no params
+            var newdate = document.getElementById("leavedate").valueAsDate;
+            var hold = parseInt((newdate.getTime() / 1000).toFixed(0));
+            hold += document.getElementById("leavetime").value * 3600; // + hours
+            return hold;
+        }
         
         async function findWeather(lat, long) {
             const latmult = 1.449; // deg lat for 100 mi
@@ -81,10 +88,10 @@
             var todo = [];
             const weatherkey = "4af0779321ecfde78a7c8185b611182c";
             for (i=0;i<locArray.length;i++){ // locArray.length
-                var url = "https://victorczhou-corsproxy.herokuapp.com/http://api.openweathermap.org/data/2.5/forecast?lat=";
+                var url = "https://victorczhou-corsproxy.herokuapp.com/http://api.openweathermap.org/data/2.5/forecast?";
                 // on my cors proxy
-                url += locArray[i][0] + "&lon=" + locArray[i][1] + "&appid=" + weatherkey;
-                const hold = await fetch(url);
+                url += "lat=" + locArray[i][0] + "&lon=" + locArray[i][1] + "&appid=" + weatherkey;
+                const hold = await fetch(url, {mode: 'cors'});
                 todo.push(hold);
             }
             for (i=0;i<todo.length;i++){
@@ -107,25 +114,6 @@
             findClose(valid, start);
         }
         
-        function stringtodate(){ // no params
-            var newdate = document.getElementById("leavedate").valueAsDate;
-            var hold = parseInt((newdate.getTime() / 1000).toFixed(0));
-            hold += document.getElementById("leavetime").value * 3600; // + hours
-            return hold;
-        }
-        
-        /*
-        function testFC(){
-            var start = [];
-            start.push(34.0689);
-            start.push(-118.4452);
-            var valid = [];
-            valid.push([33.725715, -116.223123]);
-            valid.push([37.655065, -122.012207]);
-            findclimbs(valid);
-        }
-        */
-
         async function findClose(valid, start){
             var find = new google.maps.DistanceMatrixService;
             var origin = new google.maps.LatLng(start[0], start[1]);
