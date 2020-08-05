@@ -41,15 +41,6 @@
     <script>
         const key = "AIzaSyDRw3ERq-3qMhR6jywEv94hcpP8ZzDfDzs";
         
-        function initMap(){
-            var geocoder = new google.maps.Geocoder();
-            document.getElementById("button1").addEventListener('click', function() {
-                document.getElementById("h2").innerHTML = "Searching...";
-                document.getElementById("p1").innerHTML = "<br><br><br>";
-                convertAddress(geocoder);
-            });
-        }
-        
         function convertAddress(geocoder) {
             var lat = -1;
             var long = -1;
@@ -63,6 +54,15 @@
                 else {
                     alert("Geocode error: " + status)
                 }
+            });
+        }
+        
+        function initMap(){
+            var geocoder = new google.maps.Geocoder();
+            document.getElementById("button1").addEventListener('click', function() {
+                document.getElementById("h2").innerHTML = "Searching...";
+                document.getElementById("p1").innerHTML = "<br><br><br>";
+                convertAddress(geocoder);
             });
         }
 
@@ -114,6 +114,14 @@
             findClose(valid, start);
         }
         
+        function checktimes(time){
+            var maxtime = parseFloat(frm1.time.value) * 3600; // seconds
+            if (time > maxtime)
+                return false;
+            else
+                return true;
+        }
+
         async function findClose(valid, start){
             var find = new google.maps.DistanceMatrixService;
             var origin = new google.maps.LatLng(start[0], start[1]);
@@ -158,14 +166,6 @@
                 });
                 findclimbs(final);
             }
-        }
-        
-        function checktimes(time){
-            var maxtime = parseFloat(frm1.time.value) * 3600; // seconds
-            if (time > maxtime)
-                return false;
-            else
-                return true;
         }
         
         async function findclimbs(final){
