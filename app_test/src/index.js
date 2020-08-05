@@ -25,6 +25,8 @@ class MyForm extends React.Component {
 			leaveampm: "pm",
 			time: 1, 
 			// add max grade
+
+			showresult: false,
 		};
 
 		this.handleChange = this.handleChange.bind(this);
@@ -36,44 +38,54 @@ class MyForm extends React.Component {
 	}
 
 	handleSubmit(event) {
-		alert("Submitted");
+		//testlist.push("SKFJSLDKJF");
+		this.setState({showresult: true});
 		event.preventDefault();
 	}
 
 	render() {
 		return (
-			<form onSubmit={this.handleSubmit} >
-				<label>
-				Start from: <br/>
-				<input type="text" value={this.state.start} onChange={this.handleChange} className="form-inputs"/>
-				</label>
-				<br/>
+			<div>
+				<form onSubmit={this.handleSubmit} >
+					<label>
+					Start from: <br/>
+					<input type="text" value={this.state.start} onChange={this.handleChange} className="form-inputs"/>
+					</label>
+					<br/>
 
-				<label>
-				Leave month: <br/>
-				<input type="text" value={this.state.leavemonth} onChange={this.handleChange} className="form-inputs"/>
-				</label>
-				<br/>
+					<label>
+					Leave month: <br/>
+					<input type="text" value={this.state.leavemonth} onChange={this.handleChange} className="form-inputs"/>
+					</label>
+					<br/>
 
-				<label>
-				Leave day: <br/>
-				<input type="number" value={this.state.leaveday} onChange={this.handleChange} className="form-inputs"/>
-				</label>
-				<br/>
+					<label>
+					Leave day: <br/>
+					<input type="number" value={this.state.leaveday} onChange={this.handleChange} className="form-inputs"/>
+					</label>
+					<br/>
 
-				<label>
-				Leave time: <br/>
-				<input type="number" value={this.state.leavetime} onChange={this.handleChange} className="form-inputs"/>
-				<select value={this.state.leaveampm} onChange={this.handleChange}>
-					<option value="am">am</option>
-					<option value="pm">pm</option>
-				</select>
-				</label>
-				<br/>
+					<label>
+					Leave time: <br/>
+					<input type="number" value={this.state.leavetime} onChange={this.handleChange} className="form-inputs"/>
+					<select value={this.state.leaveampm} onChange={this.handleChange}>
+						<option value="am">am</option>
+						<option value="pm">pm</option>
+					</select>
+					</label>
+					<br/>
 
-				<br/>
-				<input type="submit" value="Find crags!" />
-			</form>
+					<br/>
+					<input type="submit" value="Find crags!" />
+				</form>
+
+				{this.state.showresult && (
+					<div>
+						<h3>These places are dry:</h3>
+						<p>ONE<br/>TWO<br/></p>
+					</div>
+				)}
+			</div>
 		);
 	}
 }
