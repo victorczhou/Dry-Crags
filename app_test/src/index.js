@@ -14,6 +14,7 @@ const months = ["January", "February", "March", "April", "May", "June", "July", 
 class MyForm extends React.Component {
 	constructor(props) {
 		super(props);
+
 		var today = new Date();
 		var todaymonth =  months[today.getMonth()];
 		var todaydate = today.getDate();
@@ -27,6 +28,7 @@ class MyForm extends React.Component {
 			time: 1, 
 			// add max grade
 
+			showsearch: false,
 			showresult: false,
 		};
 
@@ -39,9 +41,25 @@ class MyForm extends React.Component {
 	}
 
 	handleSubmit(event) {
-		//testlist.push("SKFJSLDKJF");
-		this.setState({showresult: true});
+		// add 30s timer here before returning
+		this.initmap();
+		this.setState({showsearch: true});
 		event.preventDefault();
+	}
+
+	initmap(){
+		Geocode.setApiKey(GKEY);
+		Geocode.fromAddress(this.state.start).then(
+			response => {
+				const {lat, lng} = response.results[0].geometry.location;
+				console.log(lat, lng);
+				this.setState({showsearch: false});
+				this.setState({showresult: true});
+			},
+			error => {
+				console.error(error);
+			}
+		);
 	}
 
 	render() {
@@ -80,10 +98,16 @@ class MyForm extends React.Component {
 					<input type="submit" value="Find crags!" />
 				</form>
 
+				{this.state.showsearch && (
+					<div>
+						<h3>Searching...</h3>
+					</div>
+				)}
+
 				{this.state.showresult && (
 					<div>
 						<h3>These places are dry:</h3>
-						<p>ONE<br/>TWO<br/></p>
+						<p>TESTING DSFSDF</p>
 					</div>
 				)}
 			</div>
