@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Geocode from 'react-geocode';
 import './index.css';
 
 //const KEY = REACT_APP_GKEY;
