@@ -18,9 +18,6 @@ class MyForm extends React.Component {
 		var todaymonth =  months[today.getMonth()];
 		var todaydate = today.getDate();
 
-		var lat;
-		var lon;
-
 		this.state = {
 			start: "UCLA", 
 			leavemonth: todaymonth,
@@ -44,7 +41,25 @@ class MyForm extends React.Component {
 
 	handleSubmit(event) {
 		this.setState({showsearch: true});
+		this.convertaddr();
 		event.preventDefault();
+	}
+
+	convertaddr(){
+		let geocoder = new window.google.maps.Geocoder();
+		var lat;
+		var long;
+		geocoder.geocode( { 'address': this.state.start}, function(results, status) {
+            if (status == "OK"){
+                lat = results[0].geometry.location.lat();
+                long = results[0].geometry.location.lng();
+                console.log(lat, long);
+                //findWeather(lat, long);
+            }
+            else {
+                alert("Geocode error: " + status)
+            }
+ 		});
 	}
 
 	render() {
