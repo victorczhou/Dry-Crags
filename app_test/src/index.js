@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {withScriptjs} from 'react-google-maps';
 import './index.css';
 
 //const KEY = REACT_APP_GKEY;
@@ -100,8 +99,6 @@ class MyForm extends React.Component {
 		);
 	}
 }
-
-export default GoogleApiWrapper({apiKey: (GKEY)})(MyForm)
 
 class Page extends React.Component {
 	render(){
