@@ -3,7 +3,6 @@ Finds dry climbing crags within a certain time of a starting address.
 
 Prereqs:
 ReactJS
-react-geocode
 react-google-maps
 
 Current Parameters:

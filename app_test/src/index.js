@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Geocode from 'react-geocode';
+import {withScriptjs} from 'react-google-maps';
 import './index.css';
 
 //const KEY = REACT_APP_GKEY;
@@ -91,6 +91,8 @@ class MyForm extends React.Component {
 	}
 }
 
+export default GoogleApiWrapper({apiKey: (GKEY)})(MyForm)
+
 class Page extends React.Component {
 	render(){
 		return (
@@ -105,4 +107,4 @@ class Page extends React.Component {
 ReactDOM.render(
 	<Page />,
 	document.getElementById('root')
-	);
+);
