@@ -14,9 +14,13 @@ const months = ["January", "February", "March", "April", "May", "June", "July", 
 class MyForm extends React.Component {
 	constructor(props) {
 		super(props);
+
 		var today = new Date();
 		var todaymonth =  months[today.getMonth()];
 		var todaydate = today.getDate();
+
+		var lat;
+		var lon;
 
 		this.state = {
 			start: "UCLA", 
@@ -27,6 +31,7 @@ class MyForm extends React.Component {
 			time: 1, 
 			// add max grade
 
+			showsearch: false,
 			showresult: false,
 		};
 
@@ -39,8 +44,7 @@ class MyForm extends React.Component {
 	}
 
 	handleSubmit(event) {
-		//testlist.push("SKFJSLDKJF");
-		this.setState({showresult: true});
+		this.setState({showsearch: true});
 		event.preventDefault();
 	}
 
@@ -79,6 +83,12 @@ class MyForm extends React.Component {
 					<br/>
 					<input type="submit" value="Find crags!" />
 				</form>
+
+				{this.state.showsearch && (
+					<div>
+						<h3>Searching...</h3>
+					</div>
+				)}
 
 				{this.state.showresult && (
 					<div>
